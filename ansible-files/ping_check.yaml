@@ -1,0 +1,14 @@
+---
+- name: Ping EC2 Instance
+  hosts: ec2  # Make sure 'ec2_instances' is defined in your inventory
+  gather_facts: no   # No need to gather full facts for this simple check
+
+  tasks:
+    - name: Ping EC2 instance to check if it's reachable
+      ping:
+      register: ping_result
+      ignore_errors: yes  # Ignore errors in case the instance is unreachable
+
+    - name: Display the ping result
+      debug:
+        msg: "Ping result: {{ ping_result }}"

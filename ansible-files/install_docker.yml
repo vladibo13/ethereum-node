@@ -1,0 +1,85 @@
+---
+- name: Install Docker and Docker Compose on Ubuntu 24.04 EC2 Instance
+  hosts: all
+  become: yes  # Run the tasks with elevated privileges
+  vars:
+    docker_compose_version: "1.29.2"  # Docker Compose version to install
+
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install required dependencies for Docker
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Add Docker's official GPG key
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | tee /etc/apt/trusted.gpg.d/docker.asc
+
+    - name: Add Docker APT repository (Ubuntu - Stable, Lunar)
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu lunar stable"
+        state: present
+
+    - name: Install Docker Engine
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Start and enable Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Get the system architecture and OS type for Docker Compose binary
+      shell: |
+        export SYSTEM_TYPE=$(uname -s)-$(uname -m)
+        echo $SYSTEM_TYPE
+      register: system_type
+
+    - name: Install Docker Compose
+      get_url:
+        url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ system_type.stdout }}"
+        dest: /usr/local/bin/docker-compose
+        mode: "u+x"
+
+    - name: Verify Docker installation
+      command: docker --version
+      register: docker_version_out
+      changed_when: false  # Do not trigger change detection
+
+    - name: Print Docker version
+      debug:
+        msg: "Docker version is {{ docker_version_out.stdout }}"
+
+    - name: Verify Docker Compose installation
+      command: docker-compose --version
+      register: docker_compose_version_out
+      changed_when: false  # Do not trigger change detection
+
+    - name: Print Docker Compose version
+      debug:
+        msg: "Docker Compose version is {{ docker_compose_version_out.stdout }}"
+
+
+    # - name: Copy Docker Compose file to EC2 instance
+    #   ansible.builtin.copy:
+    #     src: /path/to/local/docker-compose.yml  # Replace with the path to your local file
+    #     dest: /home/ec2-user/docker-compose.yml  # Replace with the destination path
+    #     owner: ubuntu
+    #     group: ubuntu
+    #     mode: '0644'
+
+    # - name: Start Docker containers using Docker Compose
+    #   ansible.builtin.shell: |
+    #     docker-compose -f /home/ec2-user/docker-compose.yml up -d
+    #   args:
+    #     executable: /bin/bash
+    #   become_user: ubuntu

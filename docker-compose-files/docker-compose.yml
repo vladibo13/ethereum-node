@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  execution-client:
+    image: ethereum/client-go:stable
+    container_name: execution-layer
+    restart: always
+    ports:
+      - "6060:6060" # Metrics
+      - "8545:8545" # JSON-RPC endpoint
+      - "30303:30303" # P2P port
+    volumes:
+      - ./execution-data:/root/.ethereum
+    command:
+      - --http
+      - --http.api=eth,net,web3
+      - --http.addr=0.0.0.0
+      - --http.port=8545
+      - --http.corsdomain=*
+      - --http.vhosts=*
+      - --metrics
+      - --metrics.addr=0.0.0.0
+      - --syncmode=full
+
+  consensus-client:
+    image: gcr.io/prysmaticlabs/prysm/beacon-chain:stable
+    container_name: consensus-layer
+    restart: always
+    ports:
+      - "4000:4000" # P2P port
+      - "5052:5052" # Beacon chain API
+      - "3500:3500" # grpc gateway
+      - "8080:8080" # metrics
+    volumes:
+      - ./consensus-data:/data
+    command:
+      - --datadir=/data
+      - --execution-endpoint=http://execution-layer:8545
+      - --rpc-host=0.0.0.0
+      - --rpc-port=5052
+      - --accept-terms-of-use
+      - --grpc-gateway-host=0.0.0.0
+      - --grpc-gateway-port=3500
+      - --monitoring-host=0.0.0.0
+      - --monitoring-port=8080
+    depends_on:
+      - execution-client  
+
+  # Prometheus Node Exporter
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - execution-client
+      - consensus-client

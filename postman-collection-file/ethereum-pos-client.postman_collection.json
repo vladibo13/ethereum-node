@@ -1,0 +1,280 @@
+{
+	"info": {
+		"_postman_id": "fab70d9d-71ac-4dc4-a730-73d25714d922",
+		"name": "ethereum-pos-client",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "620166"
+	},
+	"item": [
+		{
+			"name": "web3_clientVersion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"jsonrpc\":\"2.0\",\"method\":\"web3_clientVersion\",\"params\":[],\"id\":1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url_execution}}:8545",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "8545"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eth_syncing",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"jsonrpc\":\"2.0\",\"method\":\"eth_syncing\",\"params\":[],\"id\":1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url_execution}}:8545",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "8545"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eth_getBlockByNumber",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBlockByNumber\",\"params\":[\"latest\",true],\"id\":1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url_execution}}:8545",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "8545"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eth_call",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"jsonrpc\":\"2.0\",\"method\":\"eth_call\",\"params\":[{\"from\": null,\"to\":\"0x6b175474e89094c44da98b954eedeac495271d0f\",\"data\":\"0x70a082310000000000000000000000006E0d01A76C3Cf4288372a29124A26D4353EE51BE\"}, \"latest\", {\"0x1111111111111111111111111111111111111111\": {\"balance\": \"0xFFFFFFFFFFFFFFFFFFFF\"}}],\"id\":1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url_execution}}:8545",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "8545"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "net_version",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"jsonrpc\":\"2.0\",\"method\":\"net_version\",\"params\":[],\"id\":1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url_execution}}:8545",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "8545"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eth_gasPrice",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"jsonrpc\":\"2.0\",\"method\":\"eth_gasPrice\",\"params\":[],\"id\":1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url_execution}}:8545",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "8545"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eth_chainId",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"jsonrpc\": \"2.0\",\"method\": \"eth_chainId\",\"params\": [],\"id\": 1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url_execution}}:8545",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "8545"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eth/v1/node/syncing",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{url_execution}}:3500/eth/v1/node/syncing",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "3500",
+					"path": [
+						"eth",
+						"v1",
+						"node",
+						"syncing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eth/v1/node/version",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{url_execution}}:3500/eth/v1/node/version",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "3500",
+					"path": [
+						"eth",
+						"v1",
+						"node",
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eth/v1/config/spec",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{url_execution}}:3500/eth/v1/config/spec",
+					"protocol": "http",
+					"host": [
+						"{{url_execution}}"
+					],
+					"port": "3500",
+					"path": [
+						"eth",
+						"v1",
+						"config",
+						"spec"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_execution",
+			"value": "52.90.139.251",
+			"type": "string"
+		}
+	]
+}
